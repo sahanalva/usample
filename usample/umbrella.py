@@ -329,8 +329,8 @@ class Umbrella:
         self.blobs0 = blobs
         self.tsteps += nsteps 
         
-        self.gr =  get_gr( np.array(self.traj_pos ) )
         
+        self.gr =  get_gr( np.array(self.traj_pos ) )
         try:
             self.acorval = np.max( self.sampler.acor )
         except:

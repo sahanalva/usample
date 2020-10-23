@@ -60,3 +60,4 @@ target/
 # Output files
 *.txt
 
+.vscode/settings.json

@@ -373,7 +373,7 @@ class UmbrellaSampler:
         if (self.us_pool):
             states = self.us_pool.map( gather_states , range(0,len(self.wlist))  )
         else:
-            states = map( gather_states , range(0,len(self.wlist))  )
+            states = list(map( gather_states , range(0,len(self.wlist))  ))
         
         for ii, z in enumerate( states ):
             self.wlist[ii].set_state(z)
@@ -445,7 +445,7 @@ class UmbrellaSampler:
         if (self.us_pool):
             states = self.us_pool.map( push_states , list(zip( range(0,len(self.wlist)) , states ))  )
         else:
-            states = map( push_states , list(zip( range(0,len(self.wlist)) , states ))  )
+            states = list(map( push_states , list(zip( range(0,len(self.wlist)) , states ))  ))
             
         if (self.debug):
             accrate = accepts / (1.0*attempts)
@@ -464,9 +464,10 @@ class UmbrellaSampler:
         if (self.us_pool):
             gr = self.us_pool.map( get_gr , range(0,len(self.wlist))  )
         else:
-            gr = map( get_gr , range(0,len(self.wlist))  )
-            
-        return np.max( gr )
+            gr = list(map( get_gr , range(0,len(self.wlist))  ))
+        
+        
+        return np.max( list(gr ))
     
     def get_static_pool(self):
         """
@@ -548,7 +549,7 @@ class UmbrellaSampler:
             if (self.us_pool):
                 self.us_pool.map( sample_window , list(zip( range(0,len(self.wlist)) , [freq]*len(self.wlist), [thin]*len(self.wlist) )) )
             else:
-                map( sample_window , list(zip( range(0,len(self.wlist)) , [freq]*len(self.wlist), [thin]*len(self.wlist) )) )
+                list(map( sample_window , list(zip( range(0,len(self.wlist)) , [freq]*len(self.wlist), [thin]*len(self.wlist) )) ))
             
             
             steps += freq
@@ -557,8 +558,7 @@ class UmbrellaSampler:
               
             currentgr = np.max( self.get_gr() ) 
             if (self.debug):
-                print("    [d]: max gr: %s"%str( currentgr )
-)            
+                print("    [d]: max gr: %s"%str( currentgr ))            
             self.run_repex( repex )
             
             
@@ -566,7 +566,7 @@ class UmbrellaSampler:
         if (self.us_pool):
             zacor = self.us_pool.map( get_acor ,  range(0,len(self.wlist))   )
         else:
-            zacor = map( get_acor ,  range(0,len(self.wlist))   )
+            zacor = list(map( get_acor ,  range(0,len(self.wlist))   ))
         
         self.zacor = zacor
 
@@ -579,7 +579,7 @@ class UmbrellaSampler:
 
         if (self.us_pool):
             Traj = self.us_pool.map( gather_traj ,  range(0,len(self.wlist))   )
-            map( push_traj , list(zip( range(0,len(self.wlist)) , Traj )) )
+            list(map( push_traj , list(zip( range(0,len(self.wlist)) , Traj )) ))
             if (not self.staticpool):
                 self.us_pool.close()
             
@@ -728,8 +728,7 @@ class UmbrellaSampler:
                 st=NS/2
                             
                 
-            
-            zz = AvgPsi[ii,(st):,:]
+            zz = AvgPsi[int(ii),int(st):,:]
             zz = zz.squeeze()
             
             #AP.append( np.exp( zz ) )
